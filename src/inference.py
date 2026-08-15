@@ -1,9 +1,10 @@
 """Inference module for saving and loading trained models."""
+from pathlib import Path
+from typing import Any
+
 import joblib
 import numpy as np
 import pandas as pd
-from pathlib import Path
-from typing import Dict, Union, Any
 
 
 def save_model(model: Any, feature_cols: list, scaler: Any, path: Path) -> None:
@@ -23,7 +24,7 @@ def save_model(model: Any, feature_cols: list, scaler: Any, path: Path) -> None:
     }, path)
 
 
-def load_model(path: Path) -> Dict:
+def load_model(path: Path) -> dict:
     """Load serialized model bundle containing model, features, and scaler.
     
     Returns:
@@ -33,7 +34,7 @@ def load_model(path: Path) -> Dict:
 
 
 def predict_single(
-    bundle: Dict,
+    bundle: dict,
     variant_dict: dict,
 ) -> float:
     """Predict pathogenicity probability for a single variant.
@@ -55,7 +56,7 @@ def predict_single(
 
 
 def predict_batch(
-    bundle: Dict,
+    bundle: dict,
     df: pd.DataFrame,
 ) -> np.ndarray:
     """Predict pathogenicity probabilities for a batch of variants.

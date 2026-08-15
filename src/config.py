@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List
 
 
 @dataclass
@@ -16,7 +15,7 @@ class DataConfig:
 @dataclass
 class FeatureConfig:
     """Feature engineering configuration."""
-    base_features: List[str] = field(default_factory=lambda: [
+    base_features: list[str] = field(default_factory=lambda: [
         "review_score",
         "is_snv",
         "ref_len",
@@ -32,7 +31,7 @@ class FeatureConfig:
         "eval_year",
         "eval_month",
     ])
-    gene_features: List[str] = field(default_factory=lambda: ["gene_freq", "gene_path_ratio"])
+    gene_features: list[str] = field(default_factory=lambda: ["gene_freq", "gene_path_ratio"])
 
 
 @dataclass

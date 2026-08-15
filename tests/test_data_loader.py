@@ -1,10 +1,10 @@
-import pytest
-from src.data_loader import load_clinvar_dataset
-from src.inference import save_model, load_model, predict_single, predict_batch
-from src.model import MODELS
-from sklearn.preprocessing import StandardScaler
-import pandas as pd
 import numpy as np
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+from src.data_loader import load_clinvar_dataset, temporal_train_test_split
+from src.inference import load_model, predict_batch, predict_single, save_model
+from src.model import MODELS
 
 
 def test_load_returns_dataframe(tmp_path):
@@ -40,8 +40,8 @@ def test_required_features_exist(tmp_path):
 
 def test_temporal_split(tmp_path):
     """Test that temporal_train_test_split correctly partitions data."""
-    from tests.conftest import make_synthetic_clinvar
     from src.data_loader import temporal_train_test_split
+    from tests.conftest import make_synthetic_clinvar
     path = make_synthetic_clinvar(200)
     try:
         df = load_clinvar_dataset(str(path), max_rows=200)

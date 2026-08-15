@@ -8,7 +8,7 @@ LogisticRegression, RandomForest, and XGBoost models.
 
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any
 
 import matplotlib
 matplotlib.use("Agg")
@@ -21,7 +21,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     accuracy_score,
     brier_score_loss,
-    precision_recall_curve,
     roc_auc_score,
     roc_curve,
 )
@@ -57,13 +56,13 @@ MODELS = {
 
 def train_and_evaluate(
     df: pd.DataFrame,
-    feature_cols: List[str],
+    feature_cols: list[str],
     target_col: str = "label",
     group_col: str = "GeneSymbol",
-    output_dir: Union[str, Path] = "results",
+    output_dir: str | Path = "results",
     n_splits: int = 5,
     do_shap: bool = True,
-) -> Tuple[Dict[str, np.ndarray], Dict[str, Any]]:
+) -> tuple[dict[str, np.ndarray], dict[str, Any]]:
     """
     Run GroupKFold CV for multiple models. Gene-level features (gene_freq,
     gene_path_ratio) are computed per-fold from training data only to prevent leakage.
@@ -155,7 +154,7 @@ def train_and_evaluate(
     return fold_probs, {"metrics": metrics_df, "summary": metrics_summary}
 
 
-def _run_shap(X: pd.DataFrame, y: np.ndarray, feature_cols: List[str], output_dir: Path, groups: np.ndarray = None) -> None:
+def _run_shap(X: pd.DataFrame, y: np.ndarray, feature_cols: list[str], output_dir: Path, groups: np.ndarray = None) -> None:
     """Run SHAP analysis on XGBoost using a single train/test split to avoid leakage."""
     try:
         from sklearn.model_selection import GroupShuffleSplit
@@ -181,7 +180,7 @@ def _run_shap(X: pd.DataFrame, y: np.ndarray, feature_cols: List[str], output_di
         logger.warning("SHAP analysis failed: %s", e)
 
 
-def _plot_roc_curves(y: np.ndarray, probs: Dict[str, np.ndarray], output_dir: Path) -> None:
+def _plot_roc_curves(y: np.ndarray, probs: dict[str, np.ndarray], output_dir: Path) -> None:
     """Plot ROC curves for all models."""
     plt.figure(figsize=(8, 6))
     for name, prob in probs.items():
@@ -199,7 +198,7 @@ def _plot_roc_curves(y: np.ndarray, probs: Dict[str, np.ndarray], output_dir: Pa
     plt.close()
 
 
-def _plot_pr_curves(y: np.ndarray, probs: Dict[str, np.ndarray], output_dir: Path) -> None:
+def _plot_pr_curves(y: np.ndarray, probs: dict[str, np.ndarray], output_dir: Path) -> None:
     """Plot precision-recall curves for all models."""
     plt.figure(figsize=(8, 6))
     for name, prob in probs.items():
@@ -215,7 +214,7 @@ def _plot_pr_curves(y: np.ndarray, probs: Dict[str, np.ndarray], output_dir: Pat
     plt.close()
 
 
-def _plot_calibration(y: np.ndarray, probs: Dict[str, np.ndarray], output_dir: Path) -> None:
+def _plot_calibration(y: np.ndarray, probs: dict[str, np.ndarray], output_dir: Path) -> None:
     """Plot calibration curves for all models."""
     plt.figure(figsize=(8, 6))
     for name, prob in probs.items():
@@ -236,10 +235,10 @@ def _plot_calibration(y: np.ndarray, probs: Dict[str, np.ndarray], output_dir: P
 def train_external_validation(
     train_df: pd.DataFrame,
     test_df: pd.DataFrame,
-    feature_cols: List[str],
+    feature_cols: list[str],
     target_col: str = "label",
     output_dir: Path = Path("results"),
-) -> Dict:
+) -> dict:
     """Train on train_df, evaluate on test_df for temporal/holdout validation."""
     output_dir.mkdir(parents=True, exist_ok=True)
 

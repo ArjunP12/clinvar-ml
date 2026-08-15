@@ -1,21 +1,13 @@
 """Simple experiment logger for reproducibility."""
 import json
 import subprocess
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any
+from pathlib import Path
+
+from typing import Any, Dict
 
 
-def _convert_keys(obj):
-    """Recursively convert dict keys to strings."""
-    if isinstance(obj, dict):
-        return {str(k): _convert_keys(v) for k, v in obj.items()}
-    if isinstance(obj, list):
-        return [_convert_keys(item) for item in obj]
-    return obj
-
-
-def log_experiment(config: Dict[str, Any], metrics: Dict[str, Any], output_path: Path) -> None:
+def log_experiment(config: dict[str, Any], metrics: dict[str, Any], output_path: Path) -> None:
     """Save experiment configuration and results to JSON.
     
     Args:
@@ -43,3 +35,12 @@ def log_experiment(config: Dict[str, Any], metrics: Dict[str, Any], output_path:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w") as f:
         json.dump(log_entry, f, indent=2, default=str)
+
+
+def _convert_keys(obj):
+    """Recursively convert dict keys to strings."""
+    if isinstance(obj, dict):
+        return {str(k): _convert_keys(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_convert_keys(item) for item in obj]
+    return obj

@@ -8,25 +8,23 @@ and an ablation study over feature groups.
 """
 
 import argparse
-import json
 import logging
 import sys
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 from sklearn.preprocessing import StandardScaler
+
+from src.config import config
+from src.data_loader import load_clinvar_dataset, temporal_train_test_split
+from src.evaluate import ablation_report, compare_to_baselines, pairwise_delong_tests
+from src.experiment_logger import log_experiment
+from src.inference import save_model
+from src.model import MODELS, train_and_evaluate, train_external_validation
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
-
-from src.config import config
-from src.data_loader import load_clinvar_dataset, temporal_train_test_split
-from src.model import train_and_evaluate, train_external_validation, MODELS
-from src.evaluate import ablation_report, compare_to_baselines, pairwise_delong_tests
-from src.inference import save_model
-from src.experiment_logger import log_experiment
 
 
 def setup_logging(log_level: str = "INFO") -> None:

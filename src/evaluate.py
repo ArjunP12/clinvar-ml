@@ -5,24 +5,12 @@ Provides metric summarization, ablation reports, baseline comparisons,
 and pairwise DeLong significance tests for model results.
 """
 
-import logging
 import math
 from pathlib import Path
-from typing import Dict, List
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import (
-    accuracy_score,
-    auc,
-    average_precision_score,
-    brier_score_loss,
-    precision_recall_curve,
-    roc_auc_score,
-    roc_curve,
-)
-
-logger = logging.getLogger(__name__)
+from sklearn.metrics import roc_auc_score
 
 
 def delong_test(
