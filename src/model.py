@@ -11,21 +11,23 @@ from pathlib import Path
 from typing import Any
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.calibration import calibration_curve
-from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     accuracy_score,
     brier_score_loss,
+    precision_recall_curve,
     roc_auc_score,
     roc_curve,
 )
 from sklearn.model_selection import GroupKFold
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
 from xgboost import XGBClassifier
 
 try:

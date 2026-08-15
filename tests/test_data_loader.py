@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-from src.data_loader import load_clinvar_dataset, temporal_train_test_split
-from src.inference import load_model, predict_batch, predict_single, save_model
+from src.data_loader import load_clinvar_dataset
+from src.inference import load_model, predict_single, save_model
 from src.model import MODELS
 
 

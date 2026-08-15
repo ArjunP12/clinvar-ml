@@ -3,8 +3,7 @@ import json
 import subprocess
 from datetime import datetime
 from pathlib import Path
-
-from typing import Any, Dict
+from typing import Any
 
 
 def log_experiment(config: dict[str, Any], metrics: dict[str, Any], output_path: Path) -> None:
